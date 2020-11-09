@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from django_countries.fields import CountryField
@@ -57,6 +58,7 @@ class Person(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     contact_number = models.CharField(max_length=30, null=True, blank=True)
     marital_status = models.IntegerField(MaritalStatus.choices)
+    is_speaker = models.BooleanField(default=False)  # Will person appear in speaker list
     # Address
     street_address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
@@ -64,6 +66,9 @@ class Person(models.Model):
     Country = CountryField()
 
     child_of = models.ForeignKey('Family', on_delete=models.PROTECT, related_name='children')
+    user_account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='person')
+    # TODO: need to add sermon connection
+    # TODO: need to add stream connection
 
     def __str__(self):
         if self.second_last_name:
