@@ -3,7 +3,18 @@ from django.urls import reverse_lazy
 
 from church_site.views import AdminListView, BaseCreateView, BaseUpdateView
 
-from churches.models import Church
+from churches.models import Church, Person
+
+
+# Admin Pages
+
+class AdminSpeakerListView(AdminListView):
+    # TODO: Add permission control
+    # permission_required = 'churches.view_speakers'
+    page_title = 'Speakers - Admin'
+    current_page = 'manage'
+    model = Person
+    context_object_name = 'speakers'
 
 
 class ChurchesAdminListView(PermissionRequiredMixin, AdminListView):

@@ -65,8 +65,9 @@ class Person(models.Model):
     state = models.CharField(max_length=50)
     Country = CountryField()
 
-    child_of = models.ForeignKey('Family', on_delete=models.PROTECT, related_name='children')
-    user_account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='person')
+    child_of = models.ForeignKey('Family', on_delete=models.PROTECT, related_name='children', blank=True, null=True)
+    user_account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='person',
+                                        blank=True, null=True)
     # TODO: need to add sermon connection
     # TODO: need to add stream connection
 
