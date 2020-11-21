@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -95,7 +94,7 @@ WSGI_APPLICATION = 'church_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if env.bool('PRODUCTION_DB', default=True):
+if os.getenv('PRODUCTION_DB', default=True):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
