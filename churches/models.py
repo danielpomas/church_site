@@ -63,7 +63,7 @@ class Person(models.Model):
     street_address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     state = models.CharField(max_length=50)
-    Country = CountryField()
+    country = CountryField()
 
     child_of = models.ForeignKey('Family', on_delete=models.PROTECT, related_name='children', blank=True, null=True)
     user_account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='person',

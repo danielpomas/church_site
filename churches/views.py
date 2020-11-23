@@ -8,6 +8,17 @@ from churches.models import Church, Person
 
 # Admin Pages
 
+class AdminSpeakersAddView(BaseCreateView):
+    # TODO: Add permission control
+    page_title = 'New Speaker - Admin'
+    current_page = 'manage'
+    btn_back_href = reverse_lazy('churches:admin-speakers-list')
+    model = Person
+    template_name = ''
+    form_class =
+    success_url = reverse_lazy('churches:admin-speakers-list')
+
+
 class AdminSpeakerListView(AdminListView):
     # TODO: Add permission control
     # permission_required = 'churches.view_speakers'
@@ -15,6 +26,7 @@ class AdminSpeakerListView(AdminListView):
     current_page = 'manage'
     model = Person
     context_object_name = 'speakers'
+    template_name = 'churches/admin-speakers-list.html'
 
 
 class ChurchesAdminListView(PermissionRequiredMixin, AdminListView):
