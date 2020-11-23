@@ -4,29 +4,31 @@ from django.urls import reverse_lazy
 from church_site.views import AdminListView, BaseCreateView, BaseUpdateView
 
 from churches.models import Church, Person
+from churches.forms import SpeakerCreateForm
 
 
 # Admin Pages
 
-class AdminSpeakersAddView(BaseCreateView):
-    # TODO: Add permission control
+class AdminSpeakersCreateView(PermissionRequiredMixin, BaseCreateView):
+    permission_required = 'churches.add_speaker'
     page_title = 'New Speaker - Admin'
     current_page = 'manage'
     btn_back_href = reverse_lazy('churches:admin-speakers-list')
     model = Person
-    template_name = ''
-    form_class =
+    template_name = 'admin-form-view.html'
+    form_class = SpeakerCreateForm
     success_url = reverse_lazy('churches:admin-speakers-list')
 
 
-class AdminSpeakerListView(AdminListView):
-    # TODO: Add permission control
-    # permission_required = 'churches.view_speakers'
+class AdminSpeakerListView(PermissionRequiredMixin, AdminListView):
+    permission_required = 'churches.view_speaker'
     page_title = 'Speakers - Admin'
     current_page = 'manage'
+    btn_add_href = reverse_lazy('churches:admin-speakers-create')
     model = Person
     context_object_name = 'speakers'
     template_name = 'churches/admin-speakers-list.html'
+    queryset = Person.objects.all_speakers()
 
 
 class ChurchesAdminListView(PermissionRequiredMixin, AdminListView):

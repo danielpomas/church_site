@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from django_countries.fields import CountryField
+from churches.consts import MaritalStatus, Gender
 
 
 class ChurchQuerySet(models.query.QuerySet):
@@ -39,18 +40,12 @@ class Church(models.Model):
         return self.name
 
 
+class PersonQuerySet(models.QuerySet):
+    def all_speakers(self):
+        return self.filter(is_speaker=True)
+
+
 class Person(models.Model):
-
-    class Gender(models.TextChoices):
-        MALE = 'male', 'Male'
-        FEMALE = 'female', 'Female'
-
-    class MaritalStatus(models.IntegerChoices):
-        SINGLE = 1, 'Single'
-        MARRIED = 2, 'Married'
-        WIDOWED = 3, 'Widowed'
-        DIVORCED = 4, 'Divorced'
-
     first_name = models.CharField(max_length=80)
     last_name = models.CharField(max_length=100)
     second_last_name = models.CharField(max_length=100, null=True, blank=True)
@@ -68,8 +63,17 @@ class Person(models.Model):
     child_of = models.ForeignKey('Family', on_delete=models.PROTECT, related_name='children', blank=True, null=True)
     user_account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='person',
                                         blank=True, null=True)
+
+    objects = PersonQuerySet.as_manager()
     # TODO: need to add sermon connection
     # TODO: need to add stream connection
+
+    class Meta:
+        permissions = (
+            ('view_speaker', 'View Speakers'),
+            ('change_speaker', 'Change Speakers'),
+            ('add_speaker', 'Add Speakers'),
+        )
 
     def __str__(self):
         if self.second_last_name:

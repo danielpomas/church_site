@@ -8,5 +8,11 @@
 {% endblock %}
 
 {% block table_body %}
-
+    {% for speaker in speakers %}
+        <tr>
+            <td>{{ speaker.first_name }} {{ speaker.last_name }}{% if speaker.second_last_name %} {{ speaker.second_last_name }}{% endif %}</td>
+            <td>
+            </td>
+        </tr>
+    {% endfor %}
 {% endblock %}
