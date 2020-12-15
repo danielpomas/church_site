@@ -34,6 +34,7 @@ class Church(models.Model):
         return self.name.replace(' ', '-')
 
     class Meta:
+        verbose_name_plural = 'Churches'
         ordering = ('country', 'name')
 
     def __str__(self):
@@ -69,6 +70,7 @@ class Person(models.Model):
     # TODO: need to add stream connection
 
     class Meta:
+        verbose_name_plural = 'People'
         permissions = (
             ('view_speaker', 'View Speakers'),
             ('change_speaker', 'Change Speakers'),
@@ -85,6 +87,9 @@ class Person(models.Model):
 class Family(models.Model):
     father = models.OneToOneField('Person', on_delete=models.PROTECT, related_name='father_of')
     mother = models.OneToOneField('Person', on_delete=models.PROTECT, related_name='mother_of')
+
+    class Meta:
+        verbose_name_plural = 'Families'
 
     def __str__(self):
         return f"{self.father.first_name} & {self.mother.first_name} {self.father.last_name}"

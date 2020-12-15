@@ -3,6 +3,7 @@
 {% block table_head %}
     <tr>
         <th>Name</th>
+        <th>Address</th>
         <th></th>
     </tr>
 {% endblock %}
@@ -11,8 +12,8 @@
     {% for speaker in speakers %}
         <tr>
             <td>{{ speaker.first_name }} {{ speaker.last_name }}{% if speaker.second_last_name %} {{ speaker.second_last_name }}{% endif %}</td>
-            <td>
-            </td>
+            <td>{{ speaker.city }}, {{ speaker.state }}, {{ speaker.country }}</td>
+            <td></td>
         </tr>
     {% endfor %}
 {% endblock %}

@@ -5,12 +5,14 @@ from .views import (
     ChurchesAdminCreateView,
     ChurchesAdminUpdateView,
     AdminSpeakerListView,
-    AdminSpeakersCreateView
+    AdminSpeakersCreateView,
+    FamilyDirectoryListView,
 )
 
 app_name = 'churches'
 
 urlpatterns = [
+    path('directory/families/', FamilyDirectoryListView.as_view(), name='family-directory-list'),
     path('manage/speakers/', AdminSpeakerListView.as_view(), name='admin-speakers-list'),
     path('manage/speakers/add/', AdminSpeakersCreateView.as_view(), name='admin-speakers-create'),
     path('manage/churches/', ChurchesAdminListView.as_view(), name='churches-admin-list'),

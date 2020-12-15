@@ -1,10 +1,18 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 
-from church_site.views import AdminListView, BaseCreateView, BaseUpdateView
+from church_site.views import AdminListView, BaseCreateView, BaseUpdateView, BaseListView
 
-from churches.models import Church, Person
+from churches.models import Church, Person, Family
 from churches.forms import SpeakerCreateForm
+
+
+class FamilyDirectoryListView(BaseListView):
+    page_title = 'Family Directory'
+    current_page = 'directory'
+    model = Family
+    context_object_name = 'families'
+    template_name = 'churches/family-directory-list.html'
 
 
 # Admin Pages
