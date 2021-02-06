@@ -24,7 +24,8 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='#xk&tivq8s*pq6ztb1%hj%kv_&h3620#n$qu+i8(xor@28wdma')
+SECRET_KEY = env(
+    'SECRET_KEY', default='#xk&tivq8s*pq6ztb1%hj%kv_&h3620#n$qu+i8(xor@28wdma')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=False)
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,8 +89,7 @@ ROOT_URLCONF = 'church_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +123,7 @@ LOGGING = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if env('PRODUCTION_DB', default=True):
+if env('PRODUCTION_DB', default=False):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -342,5 +343,5 @@ PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 
 # Bot
-BOT_API_KEY = env('BOT_API_KEY')
-BOT_URL = env('BOT_URL')
+BOT_API_KEY = env('BOT_API_KEY', default='None')
+BOT_URL = env('BOT_URL', default='None')
