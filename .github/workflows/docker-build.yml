@@ -1,26 +1,20 @@
-name: Linux Container Workflow
+name: Create and publish a package
 
-on: [push]
-
+on:
+  push:
+    branches: ['master']
 jobs:
-  build:
+  build-and-push-image:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-
-    - uses: azure/docker-login@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build container image
+      uses: docker/build-push-action@v1
       with:
-        login-server: pomas.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-
-    - run: |
-        docker build . -t pomas.azurecr.io/churchsite:${{ github.sha }}
-        docker push pomas.azurecr.io/churchsite:${{ github.sha }}     
-
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'churchsite'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: 'mycontainer.azurecr.io/churchsite:${{ github.sha }}'
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        repository: ${{ github.repository }}/churchsite-image
+        tag_with_sha: true
+        tag_with_ref: true
