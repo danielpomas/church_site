@@ -68,26 +68,26 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME}}
           
-  build-and-deploy:
-    runs-on: ubuntu-latest
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@master
+#     steps:
+#     - uses: actions/checkout@master
 
-    - name: Set up Python version
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.8'
+#     - name: Set up Python version
+#       uses: actions/setup-python@v1
+#       with:
+#         python-version: '3.8'
 
-    - name: Build using AppService-Build
-      uses: azure/appservice-build@v2
-      with:
-        platform: python
-        platform-version: '3.8'
+#     - name: Build using AppService-Build
+#       uses: azure/appservice-build@v2
+#       with:
+#         platform: python
+#         platform-version: '3.8'
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'django-test-dev'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0da61fe9c810419ea9cae4ef3c8d8c7c }}
+#     - name: 'Deploy to Azure Web App'
+#       uses: azure/webapps-deploy@v2
+#       with:
+#         app-name: 'django-test-dev'
+#         slot-name: 'production'
+#         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0da61fe9c810419ea9cae4ef3c8d8c7c }}
