@@ -67,6 +67,8 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.WEBAPP_NAME}}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_0da61fe9c810419ea9cae4ef3c8d8c7c }}
           
 #   build-and-deploy:
 #     runs-on: ubuntu-latest
