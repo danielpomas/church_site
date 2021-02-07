@@ -8,9 +8,6 @@ on:
     branches:
       - master
   workflow_dispatch:
-  
-env:
-  WEBAPP_NAME: 'church_site'
 
 jobs:
   build-and-test:
@@ -63,10 +60,21 @@ jobs:
           name: church-site
           path: .
         
-      - name: Deploy to App Service
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+         python-version: '3.8'
+
+      - name: Build using AppService-Build
+        uses: azure/appservice-build@v2
+        with:
+          platform: python
+          platform-version: '3.8'
+
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.WEBAPP_NAME}}
+          app-name: 'django-test-dev'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_0da61fe9c810419ea9cae4ef3c8d8c7c }}
           
