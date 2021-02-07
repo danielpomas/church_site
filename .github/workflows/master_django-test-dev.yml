@@ -8,8 +8,66 @@ on:
     branches:
       - master
   workflow_dispatch:
+  
+env:
+  WEBAPP_NAME: 'django-test-dev'
 
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+        
+      - name: Install npm dependencies
+        run: npm install
+        
+      - name: Setup Python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          
+      - name: Create and start virtual environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Collect static
+        run: |
+          python manage.py collectstatic
+          python manage.py compress --force
+          
+      - name: Upload artifact for deployment jobs
+        uses: actions/upload-artifact@v2
+        with:
+          name: church-site
+          path: |
+            .
+            !venv/
+            
+  deploy-to-webapp:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: church-site
+          path: .
+        
+      - name: Deploy to App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.WEBAPP_NAME}}
+          
   build-and-deploy:
     runs-on: ubuntu-latest
 
