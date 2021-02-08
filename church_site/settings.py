@@ -127,7 +127,7 @@ if env('PRODUCTION_DB', default=False):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'church_db',
+            'NAME': env('DB_NAME', default='church_db'),
             'USER': env('DB_USER'),
             'PASSWORD': env('DB_PASS'),
             'HOST': env('DB_HOST', default='localhost'),
